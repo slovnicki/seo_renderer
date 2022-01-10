@@ -122,6 +122,10 @@ class _TextRendererState extends State<TextRenderer> with RouteAware {
       return text.data ?? text.textSpan?.toPlainText() ?? '';
     }
 
+    if (text is SelectableText) {
+      return text.data ?? text.textSpan?.toPlainText() ?? '';
+    }
+
     if (text is RichText) {
       return text.text.toPlainText();
     }
