@@ -88,7 +88,7 @@ class _TextRendererState extends State<TextRenderer> with RouteAware {
     element.style.width = '${key.globalPaintBounds?.width ?? 100}px';
     element.style.margin = '0px';
     element.style.padding = '0px';
-    element.text = _getTextFromWidget().toString();
+    element.text = _getTextFromWidget();
     element.style.color = '#ff0000';
   }
 
@@ -115,23 +115,15 @@ class _TextRendererState extends State<TextRenderer> with RouteAware {
     element.remove();
   }
 
-  String? _getTextFromWidget() {
-    if (widget.text is Text) {
-      Text wid = (widget.text as Text);
-      String? data;
-      data = wid.data;
-      if (data != null) {
-        return data;
-      }
-      if (wid.textSpan != null) {
-        data = wid.textSpan!.toPlainText();
-      }
-      if (data != null) {
-        return data;
-      }
+  String _getTextFromWidget() {
+    final text = widget.text;
+
+    if (text is Text) {
+      return text.data ?? text.textSpan?.toPlainText() ?? '';
     }
-    if (widget.text is RichText) {
-      return (widget.text as RichText).text.toPlainText();
+
+    if (text is RichText) {
+      return text.text.toPlainText();
     }
 
     throw FlutterError(
